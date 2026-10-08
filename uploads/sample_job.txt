@@ -1,0 +1,107 @@
+OB DESCRIPTION
+
+Generative AI Engineer — LLM, RAG & AI Applications
+
+XYZ AI Solutions | Bengaluru / Hybrid | Full-Time
+
+ABOUT THE ROLE
+
+We are looking for a Generative AI Engineer to design, develop, evaluate, and deploy reliable AI-powered applications using Python, Large Language Models, Retrieval-Augmented Generation, APIs, cloud platforms, and modern software engineering practices. The role involves working with engineering, product, and data teams to turn business requirements into practical AI solutions.
+
+KEY RESPONSIBILITIES
+
+• Build and maintain Generative AI and LLM applications using Python.
+
+• Design RAG pipelines using embeddings, vector databases, semantic search, and retrieval strategies.
+
+• Develop backend services and REST APIs using FastAPI, Flask, or equivalent Python frameworks.
+
+• Design prompts, structured outputs, evaluation workflows, and basic guardrails for LLM applications.
+
+• Integrate AI applications with internal systems, third-party APIs, and enterprise data sources.
+
+• Build data-processing, ETL, and data-pipeline workflows for AI and analytics workloads.
+
+• Containerize Python services using Docker and support deployment on cloud infrastructure.
+
+• Work with Git, GitHub, CI/CD workflows, and software engineering best practices.
+
+• Evaluate AI response quality, relevance, and reliability using representative test cases and quality metrics.
+
+• Collaborate with engineering, product, and data teams to deliver measurable business outcomes.
+
+REQUIRED SKILLS
+
+• Strong Python programming and software engineering fundamentals.
+
+• Hands-on experience with Generative AI and Large Language Models (LLMs).
+
+• Practical experience building Retrieval-Augmented Generation (RAG) applications.
+
+• Experience with embeddings, vector databases, and semantic search.
+
+• Prompt engineering and LLM/AI evaluation.
+
+• REST API development using FastAPI, Flask, or equivalent.
+
+• SQL and database fundamentals.
+
+• Data processing, ETL, or data pipelines.
+
+• Docker and containerization.
+
+• Git and GitHub or equivalent version control.
+
+• CI/CD fundamentals.
+
+• Cloud experience with AWS, Azure, or GCP.
+
+PREFERRED SKILLS
+
+• LangChain, LlamaIndex, or LangGraph.
+
+• Hugging Face Transformers.
+
+• AI agents or agentic workflows.
+
+• Kubernetes or another container orchestration platform.
+
+• Infrastructure as Code such as Terraform.
+
+• Event-driven systems such as Apache Kafka.
+
+• Workflow orchestration such as Airflow.
+
+• Caching technologies such as Redis.
+
+• Observability using Prometheus, Grafana, or OpenTelemetry.
+
+• Automated LLM evaluation and AI quality metrics.
+
+EXPERIENCE
+
+2–5 years of experience in Python development, AI/ML engineering, Generative AI, backend engineering, data engineering, or a closely related technical field.
+
+EDUCATION
+
+Bachelor's or Master's degree in Computer Science, Information Technology, Data Science, Artificial Intelligence, Engineering, or a related discipline.
+
+WHAT WE VALUE
+
+• Strong analytical and problem-solving skills.
+
+• Ability to explain technical concepts clearly.
+
+• Ownership and ability to work independently.
+
+• Collaborative approach to cross-functional engineering.
+
+• Focus on production quality, measurable outcomes, and continuous improvement.
+
+TECHNOLOGY ENVIRONMENT
+
+Python • FastAPI • Flask • REST APIs • SQL • PostgreSQL • AWS • Docker • Git • GitHub • GitHub Actions • CI/CD • LangChain • LlamaIndex • Hugging Face • RAG • Vector Databases • Embeddings • Semantic Search • LLMs • Generative AI • AI Agents • Kubernetes • Prometheus • Grafana
+
+EQUAL OPPORTUNITY
+
+We evaluate candidates based on relevant skills, experience, problem-solving ability, and potential to contribute to the role.

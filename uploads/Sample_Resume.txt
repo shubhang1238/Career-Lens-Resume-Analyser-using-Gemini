@@ -1,0 +1,63 @@
+ABC XYZ
+Generative AI / Python Engineer
+Delhi, India | abc.xyz@email.com | +91-90000-00000 | github.com/abcxyz
+
+PROFESSIONAL SUMMARY
+Generative AI and Python Engineer with 2+ years of experience developing AI-enabled applications, Python backend services, REST APIs, RAG workflows, and data-processing solutions. Hands-on experience with Python, SQL, FastAPI, Flask, Generative AI, LLMs, RAG, embeddings, semantic search, prompt engineering, LangChain, LlamaIndex, Hugging Face, Docker, Git, AWS, and CI/CD. Experience building AI workflows, evaluating LLM responses, and integrating AI services with business applications.
+
+TECHNICAL SKILLS
+Programming: Python, SQL, JavaScript
+Generative AI: Generative AI, Large Language Models (LLMs), Prompt Engineering, RAG, Embeddings, Semantic Search, AI Agents
+AI Frameworks: LangChain, LlamaIndex, Hugging Face
+Backend & APIs: FastAPI, Flask, REST APIs, API Integration
+Data: Pandas, NumPy, ETL, Data Processing, Data Pipelines, PostgreSQL
+Cloud & DevOps: AWS, Docker, Containerization, Git, GitHub, CI/CD, GitHub Actions
+Platform: Kubernetes
+AI Quality: LLM Evaluation, AI Evaluation, Response Quality Testing
+Tools: Postman, VS Code, Jupyter Notebook
+
+PROFESSIONAL EXPERIENCE
+
+XYZ Infotec Pvt. Ltd. — GenAI / LLM Engineer | Jan 2025 – Present
+• Developed Python-based Generative AI workflows for document understanding, information extraction, and operational automation.
+• Built backend services and REST APIs using FastAPI and Flask for AI-enabled internal applications.
+• Implemented RAG workflows using LangChain, embeddings, semantic search, retrieval strategies, and LLMs.
+• Designed prompt templates and evaluation test cases to improve consistency, relevance, and response quality.
+• Built prototype AI-agent workflows for multi-step information retrieval and task automation.
+• Processed structured and unstructured datasets using Pandas, NumPy, SQL, ETL, and data-pipeline workflows.
+• Integrated third-party APIs and enterprise data sources and used Postman for API validation.
+• Containerized Python services using Docker and supported deployment workflows on AWS.
+• Worked with Git, GitHub, GitHub Actions, and CI/CD practices for application builds and deployment support.
+• Supported Kubernetes-based application environments and collaborated with engineering teams on reliable AI application delivery.
+
+ABC Digital Labs — Python Developer Intern | Jun 2024 – Dec 2024
+• Developed Python utilities and REST API integrations for internal automation tools.
+• Created SQL queries and data-processing scripts for operational reporting.
+• Built Streamlit dashboard prototypes and integrated API-based data sources.
+• Used Git, GitHub, Postman, and Jupyter Notebook during development and testing.
+
+PROJECTS
+
+AI Resume & Job Match Analyzer | Python, Flask, Gemini, NLP, RAG, Chart.js
+• Built an AI-powered application that analyzes resumes against job descriptions and generates an ATS compatibility score.
+• Implemented skill extraction, normalization, exact/partial/missing classification, and weighted scoring.
+• Added LLM-based experience and project evaluation plus an AI career chat assistant using resume and job-description context.
+• Created an interactive dashboard showing ATS score, skill coverage, experience fit, project fit, and improvement recommendations.
+• Designed prompt evaluation test cases to compare response quality and improve AI-generated recommendations.
+
+Enterprise Knowledge Assistant | Python, LangChain, LlamaIndex, Embeddings, Vector Search, FastAPI
+• Developed a RAG prototype for retrieving relevant information from enterprise documents.
+• Created document-processing and embedding workflows with semantic retrieval and REST APIs.
+• Experimented with an AI-agent workflow for multi-step document question answering.
+• Evaluated retrieval and response quality using representative test cases.
+
+EDUCATION
+Bachelor of Technology — Computer Science & Engineering | ABC University | 2024
+
+CERTIFICATIONS
+• AWS Cloud Practitioner
+• Database Foundations
+• Introduction to Cybersecurity
+
+ADDITIONAL INFORMATION
+Target roles: Generative AI Engineer, LLM Engineer, AI Engineer, Python Backend Engineer.

@@ -5,20 +5,22 @@ import uuid
 import os
 
 app = Flask(__name__)
-app.secret_key = 'super-secret-key'
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", "super-secret-key")
 
-UPLOAD_FOLDER = 'uploads'
+UPLOAD_FOLDER = "/tmp/uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-@app.route('/')
-def index():
-    return render_template('index.html')
 
-@app.route('/analyze', methods=['POST'])
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+
+@app.route("/analyze", methods=["POST"])
 def analyze():
     try:
-        resume_file = request.files['resume']
-        jd_file = request.files['jobdesc']
+        resume_file = request.files["resume"]
+        jd_file = request.files["jobdesc"]
 
         resume_path = os.path.join(UPLOAD_FOLDER, resume_file.filename)
         jd_path = os.path.join(UPLOAD_FOLDER, jd_file.filename)
@@ -31,9 +33,9 @@ def analyze():
 
         result = analyze_resume_jobdesc(resume_text, jd_text)
 
-        session['chat_id'] = str(uuid.uuid4())
-        session['resume_text'] = resume_text
-        session['jd_text'] = jd_text
+        session["chat_id"] = str(uuid.uuid4())
+        session["resume_text"] = resume_text
+        session["jd_text"] = jd_text
 
         return jsonify(result)
 
@@ -47,14 +49,23 @@ def analyze():
             "summary": f"Server error: {str(e)}"
         }), 500
 
-@app.route('/chat', methods=['POST'])
+
+@app.route("/chat", methods=["POST"])
 def chat():
     try:
-        user_message = request.json.get('message', '')
-        response = gemini_chat(session.get('resume_text', ''), session.get('jd_text', ''), user_message)
-        return jsonify({'response': response})
-    except Exception as e:
-        return jsonify({'response': f"Chat error: {str(e)}"}), 500
+        user_message = request.json.get("message", "")
 
-if __name__ == '__main__':
-    app.run(debug=True)
+        response = gemini_chat(
+            session.get("resume_text", ""),
+            session.get("jd_text", ""),
+            user_message
+        )
+
+        return jsonify({"response": response})
+
+    except Exception as e:
+        return jsonify({"response": f"Chat error: {str(e)}"}), 500
+
+
+if __name__ == "__main__":
+    app.run()

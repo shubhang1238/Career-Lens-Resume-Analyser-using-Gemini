@@ -1,4 +1,4 @@
-```markdown
+
 # 🚀 CareerLens AI — Intelligent Resume & Job Description Analyzer
 
 <p align="center">

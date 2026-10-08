@@ -1,7 +1,7 @@
 from google import genai
 
 # Use your NEW Gemini API key here
-client = genai.Client(api_key="AQ.Ab8RN6L8aCpKlaaYr7gbuCqI3mlOwMsVxHVhqqtwPO32uD0FBg")
+client = genai.Client(api_key="GEMINI_API_KEY")
 
 try:
     response = client.models.generate_content(

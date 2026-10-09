@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -1370,6 +1369,127 @@
       }
 
     }
+
+    /* =========================================================
+       ENHANCED ANALYTICS UI
+    ========================================================= */
+    .insight-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .insight-card {
+      padding: 15px 16px;
+      border-radius: 16px;
+      background: linear-gradient(145deg, rgba(255, 255, 255, .045), rgba(255, 255, 255, .018));
+      border: 1px solid rgba(255, 255, 255, .07);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .insight-card::after {
+      content: "";
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      right: -35px;
+      top: -35px;
+      background: rgba(139, 92, 246, .08);
+      filter: blur(2px);
+    }
+
+    .insight-label {
+      font-size: 10px;
+      color: #727d91;
+      text-transform: uppercase;
+      letter-spacing: 1px
+    }
+
+    .insight-value {
+      margin-top: 5px;
+      font: 700 18px "Space Grotesk";
+      color: #f5f7fb
+    }
+
+    .insight-value.small {
+      font-size: 13px;
+      line-height: 1.4
+    }
+
+    .chart-fallback {
+      display: grid;
+      gap: 14px;
+      padding: 10px 4px
+    }
+
+    .chart-row {
+      display: grid;
+      grid-template-columns: 110px 1fr 45px;
+      align-items: center;
+      gap: 12px
+    }
+
+    .chart-row-label {
+      font-size: 11px;
+      color: #9aa3b5
+    }
+
+    .chart-row-track {
+      height: 10px;
+      background: rgba(255, 255, 255, .06);
+      border-radius: 99px;
+      overflow: hidden
+    }
+
+    .chart-row-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #8b5cf6, #6366f1, #22d3ee);
+      transition: width 1s ease
+    }
+
+    .chart-row-value {
+      text-align: right;
+      font: 700 12px "Space Grotesk";
+      color: #e5e7eb
+    }
+
+    .analysis-source {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 10px;
+      color: #aeb7c8;
+      background: rgba(255, 255, 255, .035);
+      border: 1px solid rgba(255, 255, 255, .07)
+    }
+
+    .analysis-source i {
+      color: #67e8f9
+    }
+
+    .report-footer-signature {
+      margin-top: 8px;
+      color: #657086;
+      font-size: 11px
+    }
+
+    @media(max-width:900px) {
+      .insight-strip {
+        grid-template-columns: repeat(2, 1fr)
+      }
+    }
+
+    @media(max-width:520px) {
+      .insight-strip {
+        grid-template-columns: 1fr
+      }
+    }
   </style>
 </head>
 
@@ -1646,6 +1766,26 @@
 
         </div>
 
+
+
+        <div class="insight-strip" id="insightStrip">
+          <div class="insight-card">
+            <div class="insight-label">Match Level</div>
+            <div id="scoreLabel" class="insight-value">—</div>
+          </div>
+          <div class="insight-card">
+            <div class="insight-label">Matched Skills</div>
+            <div id="matchedCount" class="insight-value">—</div>
+          </div>
+          <div class="insight-card">
+            <div class="insight-label">Missing Skills</div>
+            <div id="missingCount" class="insight-value">—</div>
+          </div>
+          <div class="insight-card">
+            <div class="insight-label">Analysis Engine</div>
+            <div id="analysisSource" class="insight-value small">—</div>
+          </div>
+        </div>
 
         <!-- =================================================
                  SCORE + METRICS
@@ -2221,6 +2361,9 @@
       <div class="mt-2">
         Powered by Gemini AI
       </div>
+      <div class="report-footer-signature">
+        Designed & engineered by <strong style="color:#a78bfa;">Shubhang</strong> · CareerLens AI
+      </div>
 
     </div>
 
@@ -2675,251 +2818,144 @@
     ========================================================= */
 
     function createCharts(data) {
+      const breakdown = data.score_breakdown || {};
+      const valueOf = (a, b, c) => {
+        const n = Number(a ?? b ?? c ?? 0);
+        return Number.isFinite(n) ? Math.max(0, Math.min(100, n)) : 0;
+      };
 
-      const breakdown =
-        data.score_breakdown || {};
+      const skill = valueOf(
+        breakdown.skill_score,
+        data.skill_score,
+        breakdown.skill_match
+      );
+      const experience = valueOf(
+        breakdown.experience_score,
+        data.experience_score,
+        breakdown.experience_match
+      );
+      const project = valueOf(
+        breakdown.project_score,
+        data.project_score,
+        breakdown.project_match
+      );
 
-      const skill =
-        Number(
-          breakdown.skill_score ??
-          data.skill_score ??
-          0
-        );
-
-      const experience =
-        Number(
-          breakdown.experience_score ??
-          data.experience_score ??
-          0
-        );
-
-      const project =
-        Number(
-          breakdown.project_score ??
-          data.project_score ??
-          0
-        );
-
-
-      const chartElement =
-        document.getElementById(
-          "skillsChart"
-        );
-
+      const chartElement = document.getElementById("skillsChart");
+      const chartContainer = chartElement?.parentElement;
 
       if (skillsChart) {
-        skillsChart.destroy();
+        try { skillsChart.destroy(); } catch (_) { }
+        skillsChart = null;
       }
 
-
-      skillsChart =
-        new Chart(
-          chartElement,
-          {
-
+      // Always leave a visible chart even if Chart.js is unavailable.
+      if (typeof Chart !== "undefined" && chartElement) {
+        try {
+          skillsChart = new Chart(chartElement, {
             type: "bar",
-
             data: {
-
-              labels: [
-                "Skills",
-                "Experience",
-                "Projects"
-              ],
-
-              datasets: [
-
-                {
-                  label: "Match %",
-                  data: [
-                    skill,
-                    experience,
-                    project
-                  ],
-
-                  borderRadius: 8,
-
-                  backgroundColor: [
-                    "rgba(139,92,246,.7)",
-                    "rgba(99,102,241,.7)",
-                    "rgba(34,211,238,.7)"
-                  ],
-
-                  borderWidth: 0
-
-                }
-
-              ]
-
+              labels: ["Skills", "Experience", "Projects"],
+              datasets: [{
+                label: "Match %",
+                data: [skill, experience, project],
+                borderRadius: 10,
+                backgroundColor: [
+                  "rgba(139,92,246,.78)",
+                  "rgba(99,102,241,.78)",
+                  "rgba(34,211,238,.78)"
+                ],
+                borderWidth: 0
+              }]
             },
-
             options: {
-
               responsive: true,
-
               maintainAspectRatio: false,
-
-              plugins: {
-
-                legend: {
-                  display: false
-                }
-
-              },
-
+              animation: { duration: 900 },
+              plugins: { legend: { display: false } },
               scales: {
-
                 y: {
-
-                  beginAtZero: true,
-                  max: 100,
-
-                  grid: {
-                    color:
-                      "rgba(255,255,255,.05)"
-                  },
-
-                  ticks: {
-                    color: "#697386",
-                    font: {
-                      size: 10
-                    }
-                  }
-
+                  beginAtZero: true, max: 100,
+                  grid: { color: "rgba(255,255,255,.05)" },
+                  ticks: { color: "#697386", font: { size: 10 }, callback: v => v + "%" }
                 },
-
                 x: {
-
-                  grid: {
-                    display: false
-                  },
-
-                  ticks: {
-                    color: "#8b93a5",
-                    font: {
-                      size: 11
-                    }
-                  }
-
+                  grid: { display: false },
+                  ticks: { color: "#8b93a5", font: { size: 11 } }
                 }
-
               }
-
             }
+          });
+        } catch (err) {
+          console.warn("Chart.js bar chart failed:", err);
+        }
+      }
 
-          }
-        );
+      if (!skillsChart && chartContainer) {
+        const existing = chartContainer.querySelector(".chart-fallback");
+        if (existing) existing.remove();
+        const fallback = document.createElement("div");
+        fallback.className = "chart-fallback";
+        [
+          ["Skill Alignment", skill],
+          ["Experience Fit", experience],
+          ["Project Fit", project]
+        ].forEach(([label, value]) => {
+          const row = document.createElement("div");
+          row.className = "chart-row";
+          row.innerHTML = `
+            <div class="chart-row-label">${escapeHtml(label)}</div>
+            <div class="chart-row-track"><div class="chart-row-fill" style="width:${value}%"></div></div>
+            <div class="chart-row-value">${Math.round(value)}%</div>
+          `;
+          fallback.appendChild(row);
+        });
+        chartContainer.appendChild(fallback);
+      }
 
-
-      /* =====================================================
-         DOUGHNUT
-      ===================================================== */
-
-      const matched =
-        safeArray(
-          data.matched_skills
-        ).length;
-
-      const partial =
-        safeArray(
-          data.partial_matches
-        ).length;
-
-      const missing =
-        safeArray(
-          data.missing_skills
-        ).length;
-
-
-      const coverageElement =
-        document.getElementById(
-          "skillCoverageChart"
-        );
-
+      const matched = safeArray(data.matched_skills).length;
+      const partial = safeArray(data.partial_matches).length;
+      const missing = safeArray(data.missing_skills).length;
+      const coverageElement = document.getElementById("skillCoverageChart");
 
       if (skillCoverageChart) {
-
-        skillCoverageChart.destroy();
-
+        try { skillCoverageChart.destroy(); } catch (_) { }
+        skillCoverageChart = null;
       }
 
-
-      skillCoverageChart =
-        new Chart(
-          coverageElement,
-          {
-
+      if (typeof Chart !== "undefined" && coverageElement) {
+        try {
+          const total = matched + partial + missing;
+          const doughnutData = total ? [matched, partial, missing] : [1, 0, 0];
+          skillCoverageChart = new Chart(coverageElement, {
             type: "doughnut",
-
             data: {
-
-              labels: [
-                "Matched",
-                "Partial",
-                "Missing"
-              ],
-
-              datasets: [
-
-                {
-                  data: [
-                    matched,
-                    partial,
-                    missing
-                  ],
-
-                  backgroundColor: [
-                    "#22c55e",
-                    "#facc15",
-                    "#ef4444"
-                  ],
-
-                  borderColor:
-                    "#101521",
-
-                  borderWidth: 5
-
-                }
-
-              ]
-
+              labels: total ? ["Matched", "Partial", "Missing"] : ["No skills detected"],
+              datasets: [{
+                data: doughnutData,
+                backgroundColor: total
+                  ? ["#22c55e", "#facc15", "#ef4444"]
+                  : ["rgba(255,255,255,.10)"],
+                borderColor: "#101521",
+                borderWidth: 5
+              }]
             },
-
             options: {
-
               responsive: true,
-
               maintainAspectRatio: false,
-
               cutout: "72%",
-
+              animation: { duration: 850 },
               plugins: {
-
                 legend: {
-
                   position: "bottom",
-
-                  labels: {
-
-                    color: "#8b93a5",
-
-                    padding: 18,
-
-                    font: {
-                      size: 10
-                    }
-
-                  }
-
+                  labels: { color: "#8b93a5", padding: 18, font: { size: 10 } }
                 }
-
               }
-
             }
-
-          }
-        );
-
+          });
+        } catch (err) {
+          console.warn("Chart.js doughnut failed:", err);
+        }
+      }
     }
 
 
@@ -3030,6 +3066,32 @@
       }, 200);
 
 
+      /* Report insights */
+      const matchBreakdown = data.match_breakdown || {};
+      const scoreLabel = data.score_label ||
+        (score >= 85 ? "Excellent Match" :
+          score >= 70 ? "Strong Match" :
+            score >= 55 ? "Moderate Match" :
+              score >= 40 ? "Needs Improvement" : "Low Match");
+
+      const setText = (id, value) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = value;
+      };
+
+      setText("scoreLabel", scoreLabel);
+      setText("matchedCount", String(
+        matchBreakdown.full_match ?? safeArray(data.matched_skills).length
+      ));
+      setText("missingCount", String(
+        matchBreakdown.missing ?? safeArray(data.missing_skills).length
+      ));
+
+      const source = data.evaluation_source === "gemini"
+        ? "Gemini + evidence"
+        : "Evidence engine";
+      setText("analysisSource", source);
+
       /* Skills */
 
       renderSkillPills(
@@ -3063,9 +3125,9 @@
       document.getElementById(
         "summary"
       ).textContent =
-        data.summary ||
         data.recruiter_readout ||
-        "No summary generated.";
+        data.summary ||
+        "Your resume has been evaluated against the target role.";
 
 
       /* Improvements */

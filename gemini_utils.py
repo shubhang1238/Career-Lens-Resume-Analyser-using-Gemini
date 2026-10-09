@@ -1,3 +1,24 @@
+"""
+
+gemini_utils.py
+
+ATS Resume/JD analyzer using Google Gemini + deterministic skill extraction.
+
+
+
+Required environment variables:
+
+    GEMINI_API_KEY
+
+Optional:
+
+    GEMINI_MODEL (default: gemini-3.8-flash)
+
+    MAX_SKILL_TEXT (default: 30000)
+
+    MAX_EVAL_TEXT (default: 20000)
+
+"""
 
 import os
 

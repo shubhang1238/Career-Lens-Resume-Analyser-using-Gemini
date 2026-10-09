@@ -1,5 +1,4 @@
 Flask
 PyMuPDF
-google-generativeai
-uuid
+google-genai
 python-dotenv

@@ -778,7 +778,6 @@ JOB DESCRIPTION:
             model=MODEL,
             contents=prompt,
             config=types.GenerateContentConfig(
-                temperature=0,
                 response_mime_type="application/json",
                 response_schema=_json_schema(),
             ),
@@ -1226,7 +1225,6 @@ JOB DESCRIPTION:
             model=MODEL,
             contents=prompt,
             config=types.GenerateContentConfig(
-                temperature=0.0,
                 response_mime_type="application/json",
                 response_schema={
                     "type": "OBJECT",
@@ -1261,8 +1259,9 @@ JOB DESCRIPTION:
         summary = str(result.get("summary", "")).strip()
         if not summary:
             summary = (
-                "Your experience and projects were evaluated against the role "
-                "requirements using evidence from the submitted resume."
+                f"Your resume shows an Experience Fit of {experience_score}% and "
+                f"Project Fit of {project_score}%. The assessment is based on "
+                "evidence from your submitted resume and the role requirements."
             )
 
         return {
@@ -1292,8 +1291,9 @@ JOB DESCRIPTION:
                 "Use JD terminology naturally where it accurately describes your work.",
             ],
             "summary": (
-                "Your experience and projects were evaluated against the role "
-                "requirements using evidence from the submitted resume."
+                f"Your resume shows an Experience Fit of {experience_score}% and "
+                f"Project Fit of {project_score}%. The assessment is based on "
+                "evidence from your submitted resume and the role requirements."
             ),
             "evaluation_source": "local_fallback",
             "evaluation_warning": (
@@ -1346,8 +1346,10 @@ def analyze_resume_jobdesc(resume_text, jd_text):
     recruiter_readout = str(exp_result.get("summary", "")).strip()
     if not recruiter_readout:
         recruiter_readout = (
-            "Your experience and projects were evaluated against the role "
-            "requirements using evidence from the submitted resume."
+            f"Your resume shows {skill_score}% skill alignment, "
+            f"{exp_score}% Experience Fit and {proj_score}% Project Fit. "
+            "The assessment is based on evidence found in the submitted "
+            "resume against the role requirements."
         )
 
     return {
@@ -1445,7 +1447,7 @@ QUESTION:
         response = client.models.generate_content(
             model=MODEL,
             contents=prompt,
-            config=types.GenerateContentConfig(temperature=0.3),
+            config=types.GenerateContentConfig(),
         )
 
         return response.text or "No response generated."
